@@ -7,7 +7,7 @@ function x = gepp(A,b)
 %
 n = length(b);
 
-for k = 1:n-1
+for k = 1:n-1,  
    [maxval, maxindex] = max(abs(A(k:n,k)));
    q = maxindex+k-1;
    if maxval == 0, error('A is singular'), end

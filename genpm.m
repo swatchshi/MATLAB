@@ -1,23 +1,28 @@
-function x = genpm(A,b)
+function x = genpm(a,d,b)
 % genp.m    Gauss elimination with no pivoting
 % 
-% input:  A is an n x n nonsingular matrix
-%         b is an n x 1 vector
-% output: x is the solution of Ax=b.
+% input:  a is an 2n+1 vector
+%         b is an 2n+1 vector
+%         d is an 2n+1 vector
+% output: x is the solution 
 %
-n = length(b);
+l = length(b);
+n=(l-1)/2;
 
-for k = 1:n-1  
-   i = k+1:n;  
-   A(i,k) = A(i,k)/A(k,k);  
-   A(i,i) = A(i,i) - A(i,k)*A(k,i); 
-   b(i) = b(i) - A(i,k)*b(k);       
+for k = 1:n  
+   mult=a(k)/d(k);
+   d(l+1-k) = d(l+1-k)- mult*a(l+1-k);
+   b(l+1-k) = b(l+1-k)-mult*b(k);
+end
+x = zeros(l,1);
+for k =l:-1:n+1
+    x(k)=b(k)/d(k);
 end
 
-x = zeros(n,1);
-x(n) = b(n)/A(n,n);
-for k = n-1:-1:1  
-  x(k) = (b(k) - A(k,k+1:n)*x(k+1:n))/A(k,k);
+
+
+for k = n:-1:1  
+  x(k) = (b(k) - a(l+1-k)*x(1+l-k))/d(k);
 end
 
 
